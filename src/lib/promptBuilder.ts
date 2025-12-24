@@ -276,4 +276,4 @@ export function buildExport(opts: BuildOpts) {
     format: "Chat models (ChatGPT / Gemini / Grok)",
     payload: {
       instruction:
-        "Use the JSON spec to write a single photore
+  "Use the JSON spec to write a single photorealistic image prompt of one adult human. Keep it realistic, include camera + lighting, avoid explicit content, and avoid plastic/CGI look. Output ONLY the final prompt text.",
