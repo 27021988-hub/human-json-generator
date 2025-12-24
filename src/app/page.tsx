@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import AttributeForm from "@/components/AttributeForm";
 import { CATEGORIES } from "@/lib/schema";
 import { setDeep } from "@/lib/state";
+import { buildExport } from "@/lib/promptBuilder";
+
 
 function downloadJson(filename: string, obj: any) {
   const blob = new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" });
@@ -80,13 +82,54 @@ export default function Home() {
         />
       </div>
 
-      <div className="card">
-        <div className="h1">Output JSON</div>
-        <div className="small">This is the object you feed into your prompt pipeline.</div>
-        <div style={{ marginTop: 10 }}>
-          <pre>{jsonText}</pre>
-        </div>
-      </div>
+            <ExportPanel jsonOut={jsonOut} jsonText={jsonText} />
+
     </main>
   );
 }
+function ExportPanel({ jsonOut, jsonText }: { jsonOut: any; jsonText: string }) {
+  const [mode, setMode] = useState<"sdxl" | "flux" | "midjourney" | "chat">("sdxl");
+
+  const built = useMemo(() => buildExport({ json: jsonOut, mode }), [jsonOut, mode]);
+  const exportText = useMemo(() => JSON.stringify(built.payload, null, 2), [built]);
+
+  async function copyExport() {
+    await navigator.clipboard.writeText(exportText);
+    alert("Copied export ✅");
+  }
+
+  return (
+    <div className="card">
+      <div className="h1">Exports</div>
+      <div className="small">Choose a target and copy the payload.</div>
+
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+        <button className={`pill ${mode === "sdxl" ? "pillActive" : ""}`} onClick={() => setMode("sdxl")}>SDXL</button>
+        <button className={`pill ${mode === "flux" ? "pillActive" : ""}`} onClick={() => setMode("flux")}>Flux</button>
+        <button className={`pill ${mode === "midjourney" ? "pillActive" : ""}`} onClick={() => setMode("midjourney")}>Midjourney-ish</button>
+        <button className={`pill ${mode === "chat" ? "pillActive" : ""}`} onClick={() => setMode("chat")}>Chat models</button>
+      </div>
+
+      <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
+        <button className="btn" onClick={copyExport}>Copy export</button>
+        <button className="btn" onClick={() => downloadJson(`export-${mode}.json`, built.payload)}>
+          Download export
+        </button>
+      </div>
+
+      <div className="small" style={{ marginTop: 10 }}>
+        Format: <b>{built.format}</b>
+      </div>
+
+      <div style={{ marginTop: 10 }}>
+        <pre>{exportText}</pre>
+      </div>
+
+      <div className="card" style={{ marginTop: 12 }}>
+        <div className="h2">Raw JSON (your spec)</div>
+        <pre>{jsonText}</pre>
+      </div>
+    </div>
+  );
+}
+
