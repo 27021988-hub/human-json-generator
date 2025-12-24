@@ -51,7 +51,8 @@ export default function Home() {
         <div className="h1">Human JSON Generator</div>
         <div className="small">250+ controls. Output updates live.</div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
+       <div className="catBar" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
+
           {CATEGORIES.map((c) => (
             <button
               key={c.id}

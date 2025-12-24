@@ -99,3 +99,37 @@ pre {
   /* Reduce big headings slightly */
   .h1 { font-size: 18px; }
 }
+/* --- iPhone / small screen fixes --- */
+html, body {
+  overflow-x: hidden;
+}
+
+.grid, .card {
+  min-width: 0;
+}
+
+pre {
+  max-width: 100%;
+  white-space: pre-wrap;      /* stop long lines forcing sideways scroll */
+  word-break: break-word;
+}
+
+/* Make category pills a horizontal swipe bar on mobile */
+@media (max-width: 700px) {
+  .catBar {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+  .catBar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .catBar .pill {
+    flex: 0 0 auto;
+  }
+
+  /* Buttons stack nicer */
+  .btn { width: 100%; }
+}
