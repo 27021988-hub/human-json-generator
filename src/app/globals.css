@@ -76,3 +76,26 @@ pre {
   background: #0b1020;
   color: #d7e1ff;
 }
+/* --- Mobile fixes --- */
+@media (max-width: 1100px) {
+  /* stop sticky sidebar on mobile */
+  .grid .card[style*="position: sticky"] {
+    position: static !important;
+    top: auto !important;
+  }
+
+  /* give breathing room */
+  .grid { padding: 10px; gap: 10px; }
+
+  /* JSON blocks: don't try to be 72vh on small screens */
+  pre { max-height: 45vh; }
+}
+
+@media (max-width: 700px) {
+  /* Make buttons wrap nicely */
+  .btn { width: 100%; }
+  .pill { flex: 1 1 auto; text-align: center; }
+
+  /* Reduce big headings slightly */
+  .h1 { font-size: 18px; }
+}

@@ -125,10 +125,15 @@ function ExportPanel({ jsonOut, jsonText }: { jsonOut: any; jsonText: string }) 
         <pre>{exportText}</pre>
       </div>
 
-      <div className="card" style={{ marginTop: 12 }}>
-        <div className="h2">Raw JSON (your spec)</div>
-        <pre>{jsonText}</pre>
-      </div>
+            <details style={{ marginTop: 12 }}>
+        <summary style={{ cursor: "pointer", fontWeight: 700 }}>
+          Raw JSON (tap to expand)
+        </summary>
+        <div style={{ marginTop: 10 }}>
+          <pre>{jsonText}</pre>
+        </div>
+      </details>
+
     </div>
   );
 }
